@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ERROR</title>
+</head>
+<body>
+<H1>ERROR HAS NO AUTHORITY TO ENTER</H1>
+<form th:action="@{/user}" method="GET">
+    <input type="submit" value="GO TO USER PAGE"/>
+</form>
+<form th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+</html>

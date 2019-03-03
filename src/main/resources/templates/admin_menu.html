@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CRUD APP</title>
+</head>
+<body>
+
+<h2>All users</h2><br/>
+<table border="2">
+    <tr>
+        <th>Name</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
+        <th>Delete</th>
+        <th>Edit</th>
+    </tr>
+    <th:block th:each="user : ${users}">
+        <th:block th:each="role : ${user.roles}">
+            <tr>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.login}"></td>
+                <td th:text="${user.password}"></td>
+                <td th:text="${role.role}"></td>
+                <td><a th:href="@{/admin/delete(id=${user.id})}">Delete</a></td>
+                <td><a th:href=" @{/admin/update(id=${user.id})}">Edit</a></td>
+            </tr>
+        </th:block>
+    </th:block>
+
+
+    <form th:action="@{/admin/add}" method="POST">
+        <tr>
+            <td>Create new user</td>
+            <td>
+                Name <input type="text" th:field="*{user.name}"/>
+            </td>
+            <td>
+                Login <input type="text" th:field="*{user.login}"/>
+            </td>
+            <td>
+                Password <input type="text" th:field="*{user.password}"/>
+            </td>
+            <td> Role
+                <select th:name="roleId">
+                    <option th:each="role : ${roles}"
+                            th:value="${role.getId()}"
+                            th:text="${role.role}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <button type="submit">Submit</button>
+            </td>
+        </tr>
+    </form>
+</table>
+<form th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+</html>
