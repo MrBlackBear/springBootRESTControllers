@@ -41,11 +41,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(long id, String name, String login, String password) {
+    public User(long id, String name, String login, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
+        this.roles = roles;
     }
 
     @Override

@@ -1,18 +1,14 @@
 package crud.controller;
 
-import crud.model.Role;
 import crud.model.User;
 import crud.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import crud.service.UserService;
-import org.springframework.web.servlet.ModelAndView;
 
-
-import java.util.Collections;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -26,71 +22,52 @@ public class AppController {
         this.userService = userService;
         this.roleService = roleService;
     }
+    /* to save an user*/
+    @PostMapping("/users")
+    public User createUser(@Valid @RequestBody User user) {
+        return userService.addUser(user);
+    }
 
-    @RequestMapping(value = "/login")
-    public ModelAndView login(String error, String logout, ModelAndView modelAndView) {
-        if (error != null) {
-            modelAndView.addObject("error", "Username or password is incorrect.");
+    /*get all employees*/
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return this.userService.listUsers();
+    }
+
+
+    /*get employee by userId*/
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable(value="id") Long userId){
+       User user=userService.getUserById(userId);
+        if(user==null) {
+            return ResponseEntity.notFound().build();
         }
-        if (logout != null) {
-            modelAndView.addObject("message", "Logged out successfully.");
+        return ResponseEntity.ok().body(user);
+    }
+
+    /*update an employee by userId*/
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateEmployee(@PathVariable(value="id") Long userId,@Valid @RequestBody User userDetails){
+        User user = userService.getUserById(userId);
+        if(user==null) {
+            return ResponseEntity.notFound().build();
         }
-        modelAndView.setViewName("login");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/admin")
-    public ModelAndView startPageAdmin() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(new User());
-        modelAndView.addObject("users", this.userService.listUsers());
-        modelAndView.addObject("roles", this.roleService.getRoles());
-        modelAndView.setViewName("admin_menu");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
-    public ModelAndView add(@ModelAttribute User user, @RequestParam Long roleId) {
-        Set<Role> roleSet = Collections.singleton(roleService.getRoleById(roleId));
-        user.setRoles(roleSet);
-        userService.addUser(user);
-
-        return new ModelAndView("redirect:/admin");
-    }
-
-    @RequestMapping(value = "/admin/delete")
-    public ModelAndView deleteEmployee(@RequestParam Long id) {
-        userService.removeUser(id);
-        return new ModelAndView("redirect:/admin");
-    }
-
-    @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
-    public ModelAndView updatePost(@ModelAttribute("admin/user") User user, @RequestParam Long roleId) {
-        Set<Role> roleSet = Collections.singleton(roleService.getRoleById(roleId));
-        user.setRoles(roleSet);
+        user.setName(userDetails.getName());
+        user.setRoles(userDetails.getRoles());
+        user.setPassword(userDetails.getPassword());
+        user.setLogin(userDetails.getLogin());
         userService.updateUser(user);
-        return new ModelAndView("redirect:/admin");
+        return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
-    @RequestMapping(value = "/admin/update")
-    public ModelAndView updateGet(@RequestParam Long id, ModelAndView model) {
-        model.setViewName("update");
-        User user = userService.getUserById(id);
-        model.addObject("user", user);
-        List<Role> roles = roleService.getRoles();
-        model.addObject("roles", roles);
-        return model;
-    }
-
-    @RequestMapping(value = "/user")
-    public ModelAndView helloPageUser(ModelAndView modelAndView) {
-        modelAndView.setViewName("user_hello");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/error")
-    public ModelAndView error(ModelAndView modelAndView) {
-        modelAndView.setViewName("error");
-        return modelAndView;
+    /*Delete an user*/
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable(value="id") Long userId){
+        User user = userService.getUserById(userId);
+        if(user==null) {
+            return ResponseEntity.notFound().build();
+        }
+        userService.removeUser(userId);
+        return ResponseEntity.ok().build();
     }
 }
