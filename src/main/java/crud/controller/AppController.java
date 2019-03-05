@@ -28,14 +28,14 @@ public class AppController {
         return userService.addUser(user);
     }
 
-    /*get all employees*/
+    /*get all users*/
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return this.userService.listUsers();
     }
 
 
-    /*get employee by userId*/
+    /*get user by userId*/
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable(value="id") Long userId){
        User user=userService.getUserById(userId);
@@ -45,7 +45,7 @@ public class AppController {
         return ResponseEntity.ok().body(user);
     }
 
-    /*update an employee by userId*/
+    /*update an user by userId*/
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateEmployee(@PathVariable(value="id") Long userId,@Valid @RequestBody User userDetails){
         User user = userService.getUserById(userId);
