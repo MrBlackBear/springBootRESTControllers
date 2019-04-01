@@ -1,0 +1,10 @@
+.cols {
+    min-height:600px;
+}
+.fixed {
+    width:20%;
+    float: left;
+}
+.blue {
+    background:blue;
+}

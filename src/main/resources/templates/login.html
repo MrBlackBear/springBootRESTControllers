@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Login page</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/signin.css">
 </head>
 <body>
-<h4>Login Form</h4>
+<form class="form-signin" th:action="@{/login}" method="POST">
+    <h1 class="h1">Please sign in</h1>
 
-<th:if test="${param.error != null}">
-  <h3 th:text="${error}"></h3>
-</th:if>
-<th:if test="${param.logout != null}">
-    <h3 th:text="${message}"></h3>
-</th:if>
-
-<form th:action="@{/login}" method='POST'>
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type='text' name='name' value=''></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' name='password'/></td>
-        </tr>
-        <tr>
-            <td ><input th:type="submit" th:value="submit"/></td>
-        </tr>
-    </table>
+    <div class="form-group" id="divInputName">
+        <input type="name" class="form-control" id="inputName" name="name" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-pull-center">Sign in</button>
+    <button type="submit" class="btn btn-primary btn-block btn-pull-center"
+            onclick='location.href = "https://oauth.vk.com/authorize?client_id=6914326&display=page&redirect_uri=http://localhost:8080/vk&scope=offline&response_type=token&v=5.52"'>
+        VK Authorization
+    </button>
 </form>
 </body>
 </html>

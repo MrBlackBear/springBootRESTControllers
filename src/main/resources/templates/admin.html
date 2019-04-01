@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>ADMIN</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/startPage.css">
+    <script type="text/javascript" src="/js/getAll.js"></script>
+    <script type="text/javascript" src="/js/fillUpdateModalForm.js"></script>
+    <script type="text/javascript" src="/js/deleteUser.js"></script>
+    <script type="text/javascript" src="/js/addSelectRoles.js"></script>
+    <script type="text/javascript" src="/js/addUser.js"></script>
+    <script type="text/javascript" src="/js/updateSelectedRoles.js"></script>
+    <script type="text/javascript" src="/js/updateUser.js"></script>
+</head>
+<body>
+<!--START navbar  -->
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand navbar-left" href="#">Project name</a>
+        </div>
+        <form class="navbar-form navbar-right" th:action="@{/logout}" method="POST">
+            <button type="submit" class="btn btn-link">Logout</button>
+        </form>
+    </div>
+</nav>
+<!--END navbar  -->
+
+<!--START sidebar  -->
+<div class="w3-sidebar w3-bar-block" style="width:20%">
+    <a href="#startPage" class="w3-bar-item w3-button" id="adminSidebar">Admin</a>
+    <a href="http://localhost:8080/user" class="w3-bar-item w3-button">User</a>
+</div>
+<!--END sidebar  -->
+
+<!--main page  -->
+<div id="startPage" style="margin-left:25%">
+    <h1>Admin panel</h1>
+    <ul class="nav nav-tabs">
+        <li class="active"><a id="tableUsersTab" data-toggle="tab" href="#tableUsers">Users table</a></li>
+        <li><a data-toggle="tab" href="#addUser">New User</a></li>
+    </ul>
+
+    <!--table -->
+    <div class="tab-content">
+        <div id="tableUsers" class="tab-pane fade in active">
+            <div class="panel panel-default">
+                <div class="panel-heading">All users</div>
+            </div>
+            <table class="table table-striped" id="tableUsersGetAll">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Delete</th>
+                    <th>Update</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- end table -->
+
+        <!-- add user -->
+        <div id="addUser" class="tab-pane fade">
+            <div class="panel panel-default">
+                <div class="panel-heading">Add user</div>
+            </div>
+            <div class="col-md-4 col-md-offset-3">
+                <!-- add Name -->
+                <div class="form-group text-center">
+                    <label for="nameAddUser">Name</label>
+                    <input type="text" id="nameAddUser" class="form-control" placeholder="Enter Name"/>
+                </div>
+                <!-- add Login -->
+                <div class="form-group text-center">
+                    <label for="loginAddUser">Login</label>
+                    <input type="text" id="loginAddUser" class="form-control" placeholder="Enter Login"/>
+                </div>
+                <!-- add Password -->
+                <div class="form-group text-center">
+                    <label for="passwordAddUser">Password</label>
+                    <input type="text" id="passwordAddUser" class="form-control" placeholder="Enter password"/>
+                </div>
+                <!--Add role -->
+                <div class="form-group text-center">
+                    <label for="authorityAddUser">Select Role</label>
+                    <select onchange="getAllRolesForAddForm()" class="form-control" id="authorityAddUser">
+                    </select>
+                </div>
+                <div class="col-md-2 col-md-offset-4">
+                    <button id="addUserButton" type="button" class="btn btn-success">Add user</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- add user end  -->
+
+<!--START MODAL -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body container-fluid row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <!-- modal Id -->
+                        <div class="form-group text-center">
+                            <label for="modalId">Id</label>
+                            <input hidden=""/>
+                            <input type="number" id="modalId" class="form-control" placeholder="Id" disabled/>
+                        </div>
+                        <!-- modal Name -->
+                        <div class="form-group text-center">
+                            <label for="modalName">Name</label>
+                            <input type="text" id="modalName" class="form-control" placeholder="Name"/>
+                        </div>
+                        <!-- modal Login -->
+                        <div class="form-group text-center">
+                            <label for="modalLogin">Login</label>
+                            <input type="text" id="modalLogin" class="form-control" placeholder="Login"/>
+                        </div>
+                        <!-- modal Password -->
+                        <div class="form-group text-center">
+                            <label for="modalPassword">Password</label>
+                            <input type="text" id="modalPassword" class="form-control" placeholder="Password"/>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <label for="modalAuthority">Select Role</label>
+                            <select onchange="getAllRolesForUpdateForm()" class="form-control" id="modalAuthority">
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="closeButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="editUser" type="button" class="btn btn-primary">Edit user</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL -->
+</body>
+</html>

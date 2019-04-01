@@ -24,7 +24,7 @@ public class UserDetailService implements UserDetailsService {
             throws UsernameNotFoundException {
         User user = userDao.getUserByUserName(username);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("User not authorized.");
         }
         return user;
     }
