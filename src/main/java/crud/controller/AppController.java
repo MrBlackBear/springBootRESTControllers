@@ -1,6 +1,7 @@
 package crud.controller;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -137,10 +138,15 @@ public class AppController {
         GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(transport, jsonFactory,
                 clientId, clientSecret, code, redirectUri).execute();
 
+        GoogleIdToken idToken = tokenResponse.parseIdToken();
+        GoogleIdToken.Payload payload = idToken.getPayload();
+        String email = payload.getEmail();
+        String userId = payload.getSubject();
+
         Role role = roleService.getRoleById(2);
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
-        User newUser = new User(tokenResponse.getIdToken().substring(15,45), tokenResponse.getIdToken().substring(5,15), "pass", roleSet);
+        User newUser = new User(email, userId, "pass", roleSet);
         userService.addUser(newUser);
         Authentication auth = new UsernamePasswordAuthenticationToken(newUser, null, newUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
