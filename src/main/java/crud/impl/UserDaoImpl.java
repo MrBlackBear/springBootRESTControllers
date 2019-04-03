@@ -1,4 +1,4 @@
-package crud.dao.impl;
+package crud.impl;
 
 import crud.dao.UserDao;
 import crud.model.User;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -51,6 +52,11 @@ public class UserDaoImpl implements UserDao {
     public User getUserByUserName(String userName) {
         Query query = entityManager.createQuery("FROM User where login = :paramName");
         query.setParameter("paramName", userName);
-        return (User) query.getSingleResult();
+        try {
+            return (User) query.getSingleResult();
+        } catch (NoResultException ex){
+
+        }
+        return null;
     }
 }

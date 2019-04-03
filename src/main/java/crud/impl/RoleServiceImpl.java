@@ -1,4 +1,4 @@
-package crud.service.impl;
+package crud.impl;
 
 import crud.dao.RoleDao;
 import crud.model.Role;

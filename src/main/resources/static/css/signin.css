@@ -12,6 +12,14 @@ body {
 #divInputName{
     margin-bottom: 0;
 }
+
+#vk, #google{
+   margin-top: 55px;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
 .form-signin .form-control {
     position: relative;
     height: auto;

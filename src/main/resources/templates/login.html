@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Login page</title>
-    <!-- Latest compiled and minified CSS -->
+    <!— Latest compiled and minified CSS —>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
+    <!— jQuery library —>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.."></script>
+    <!— Latest compiled JaavaScript —>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/signin.css">
 </head>
@@ -24,9 +24,16 @@
         <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
     </div>
     <button type="submit" class="btn btn-primary btn-block btn-pull-center">Sign in</button>
-    <button type="submit" class="btn btn-primary btn-block btn-pull-center"
-            onclick='location.href = "https://oauth.vk.com/authorize?client_id=6914326&display=page&redirect_uri=http://localhost:8080/vk&scope=offline&response_type=token&v=5.52"'>
+
+</form>
+<form id="vk" th:action="@{/vkAuth}" method="GET">
+    <button type="submit" class="btn btn-primary btn-block btn-pull-center">
         VK Authorization
+    </button>
+</form>
+<form id="google" th:action="@{/googleAuth}" method="GET">
+    <button type="submit" class="btn btn-primary btn-block btn-pull-center">
+        Google Authorization
     </button>
 </form>
 </body>
